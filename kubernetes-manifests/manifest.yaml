@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: chatgpt-apps
+  labels:
+    name: chatgpt-apps
+--- 
+apiVersion: v1
+kind: Service
+metadata: 
+  labels: 
+    app: image-generator
+  name: image-generator
+  namespace: chatgpt-apps
+spec: 
+  ports: 
+    - 
+      name: http
+      port: 80
+      protocol: TCP
+      targetPort: 3000
+  selector: 
+    app: image-generator
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  labels: 
+    app: image-generator
+  name: image-generator
+  namespace: chatgpt-apps
+spec: 
+  replicas: 2
+  selector: 
+    matchLabels: 
+      app: image-generator
+  strategy: 
+    type: Recreate
+  template: 
+    metadata: 
+      labels: 
+        app: image-generator
+    spec: 
+      containers: 
+        - image: "youngjeong46/chatgpt-image-generator:latest"
+          name: image-generator          
+          ports: 
+            - containerPort: 3000
+              name: image-generator 
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 5
+            timeoutSeconds: 1  
+      tolerations:
+      - key: "workload"
+        operator: "Exists"
+        effect: "NoSchedule"
