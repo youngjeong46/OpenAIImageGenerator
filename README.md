@@ -11,7 +11,8 @@ To get started you will need:
 - [Node](https://nodejs.org/en/), version v16.16 or later.
 - [NPM](https://www.npmjs.com/) package manager, version 8.11 or later.
 - An IDE for building the application such as [Visual Studio](https://visualstudio.microsoft.com/)
-- An OpenAPI API Key is required to access the API needed for image generation. Store it under `.env` file in the format provided under `.env.example` (assigned under `OPENAPI_API_KEY` variable)
+- An [account with OpenAI](https://beta.openai.com/signup) to use their API service. You can get a free account for personal use (with limited API calls).
+- An [OpenAI API Key](https://beta.openai.com/account/api-keys) is required to access the API needed for image generation. Store it under `.env` file in the format provided under `.env.example` (assigned under `OPENAI_API_KEY` variable)
 
 ## Running Locally (using npm)
 
@@ -63,14 +64,24 @@ Alternatively, you can use the [Docker Compose for Amazon ECS](https://docs.dock
 
 ## Running on Kubernetes
 
-To deploy to an existing Kubernetes cluster:
+First, you will need to generate a Base64 encoded string of your OpenAI API key:
+
+```sh
+echo -n <your API key> | base64
+```
+
+Take the output and place it in the secret data inside `kubernetes-manifests/apisecret.yaml`.
+
+To deploy to an existing Kubernetes cluster, run the following command to apply the manifests:
 
 ```sh
 kubectl apply -f kubernetes-manifests/
 ```
 
-<!-- The [geolocationapi.yaml](/templates/geolocationapi.yaml) manifest doesn't expose the service via a load balancer so in order to test do something like this:
+The [application.yaml](./kubernetes-manifests/application.yaml) manifest doesn't expose the service via a load balancer so in order to test do something like this:
 
 ```sh
-kubectl exec -it busybox -n default -- wget -qO- http://{Service-IP}:{Port}/api/v1/geolocation/8.8.8.8
-``` -->
+kubectl -n chatgpt-apps port-forward svc/image-generator 3000:80 
+```
+
+You can access the application via `http://localhost:3000`.
