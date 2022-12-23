@@ -1,5 +1,9 @@
 # Image Generator
-This is a sample NodeJS application for generating images using phrases. The generation is provided using OpenAI's [ChatGPT API](https://openai.com/api/).
+This is a sample NodeJS application for generating images. The user is prompted to write a simple description, which the application will use to generate a corresponding image. 
+
+![a cat and a dog image](./public/index.png)
+
+The generation is provided using OpenAI's [ChatGPT API](https://openai.com/api/).
 
 ## Prerequisites
 To get started you will need:
@@ -7,8 +11,9 @@ To get started you will need:
 - [Node](https://nodejs.org/en/), version v16.16 or later.
 - [NPM](https://www.npmjs.com/) package manager, version 8.11 or later.
 - An IDE for building the application such as [Visual Studio](https://visualstudio.microsoft.com/)
+- An OpenAPI API Key is required to access the API needed for image generation. Store it under `.env` file in the format provided under `.env.example` (assigned under `OPENAPI_API_KEY` variable)
 
-## Running Locally
+## Running Locally (using npm)
 
 To get started, first install dependencies:
 
@@ -22,7 +27,35 @@ Then, start the application:
 npm run start
 ```
 
+## Running Locally (using docker build)
+
+You can build your own Docker image as provided below. Since node provide multiarch option, we use `buildx` to build architectures available for `node` container image. You may choose to build an individual arch otherwise.
+
+```sh
+docker buildx build --push --platform linux/arm64/v8,linux/amd64 --tag {your image name}:{your tag} .
+```
+
+You can now run the built image using the following command:
+
+```sh
+docker run -p 3000:3000 --env-file ./.env {your image name}:{your tag}
+```
+
+You will then be able to access the application on your browser under the following URL: `http://localhost:3000`
+
+## Running Locally (using public image)
+
+The image already exists publicly in DockerHub:
+
+```sh
+docker run -p 3000:3000 --env-file ./.env youngjeong46/chatgpt-image-generator:alpine
+```
+
+You will then be able to access the application on your browser under the following URL: `http://localhost:3000`
+
 ## Running on ECS Fargate
+
+This is currently in progress.
 
 <!-- The [AWS CDK](https://aws.amazon.com/cdk/) is used to deploy the application to [ECS Fargate](https://aws.amazon.com/fargate/) and is protected with [AWS WAF](https://aws.amazon.com/waf/) via the CDK for C#. Follow the instructions in the [README.md](CdkGeoLocationApi/README.md).
 

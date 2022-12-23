@@ -1,0 +1,9 @@
+**/.env*
+**/.git
+**/.gitignore
+**/.dockerignore
+**/node_modules/
+**/kubernetes-manifests/
+**/README.md
+**/package-lock.json
+**/.next
