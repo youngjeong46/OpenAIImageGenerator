@@ -1,9 +1,9 @@
-# ChatGPT Image Generator
+# DALL·E Image Generator
 This is a sample NodeJS application for generating images. The user is prompted to write a simple description, which the application will use to generate a corresponding image. 
 
 ![a cat and a dog image](./public/index.png)
 
-The generation is provided using OpenAI's [ChatGPT API](https://openai.com/api/).
+The generation is provided using OpenAI's [Images API](https://beta.openai.com/docs/guides/images) and [DALL·E models](https://openai.com/dall-e-2/).
 
 ## Prerequisites
 To get started you will need:
