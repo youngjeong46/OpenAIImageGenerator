@@ -1,4 +1,7 @@
-node_modules/
+**/node_modules/
+**/cdk.out/
 .env
-package-lock.json
+.env.zip
 .next/
+package-lock.json
+cdk.context.json
