@@ -8,8 +8,8 @@ const openai = new OpenAIApi(configuration);
 export default async function (req, res) {
   const response = await openai.createImage({
     prompt: req.body.question,
-    n:8,
-    size:"523x523",
+    n:9,
+    size:"256x256",
   });
   res.status(200).json({ result: response.data.data[0].url });
 }
