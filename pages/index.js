@@ -22,7 +22,7 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>ChatGPT Image Generator App</title>
+        <title>  Image   Generator  </title>
         <link rel="icon" href="/dog.png" />
       </Head>
 
